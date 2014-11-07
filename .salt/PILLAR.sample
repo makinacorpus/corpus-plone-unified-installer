@@ -1,0 +1,75 @@
+#
+# This file contains default values which are used
+# by the salt states deploying your project.
+# you may copy them to your relevant PILLAR file
+# before editing them.
+# If you need to add variables, this is where to begin.
+# Please keep defaults in there, but real passwords
+# must be putted inside pillar
+#
+# replace project_name in your pillar by
+# the current projectname
+# you can also merge parts of this file
+# with the relevant pillar
+makina-projects.projectname:
+  data:
+    server_aliases: []
+    plone_major: "4.0"
+    plone_ver: "4.0.9"
+    uinstaller: 'Plone-{plone_ver}-UnifiedInstaller'
+    installer_url: "http://launchpad.net/plone/{plone_major}/{plone_ver}/+download/{uinstaller}.tgz"
+    plone_arc: '{data_root}/{uinstaller}.tgz'
+    #symlinks:
+    #  - /var/foo§/zeocluster: '{zroot}'
+    plone_root: '{data_root}/{uinstaller}'
+    zroot: '{data_root}/zeocluster'
+    var-directory: '{zroot}/var'
+    cache-directory: '{var-directory}/buildout-cache'
+    www_dir: '{var-directory}/www'
+    #svn_url: "https://subversion.foo.net/foo'
+    front_address: '127.0.0.1'
+    front_port: '8080'
+    cron_hour: 1
+    cron_minute: 5
+    autostart: 'true'
+    domain: "{fqdn}"
+    port: 80
+    plonesite: Plone
+    TMPDIR: /tmp
+    nginx_vhost: "salt://makina-projects/{name}/files/nginx.conf"
+    nginx_top: "salt://makina-projects/{name}/files/nginx.top.conf"
+    buildout:
+      settings:
+        zeoserver:
+          zeopack-script-name: zeoserver-zeopack
+        versions:
+          zc.buildout: "1.7.0"
+          zc.recipe.egg: "1.3.2"
+        buildout:
+          versions: versions
+          effective-user: "{user}"
+          haproxy-user: "{user}"
+          varnish-user: "{user}"
+          newest: "false"
+          unzip: "true"
+          cache-directory: '{cache-directory}'
+          download-cache: '{cache-directory}/downloads'
+          download-directory: '{cache-directory}/downloads'
+          eggs-directory: '{cache-directory}/eggs'
+          parts-directory: '{zroot}/parts'
+          python-check-interval: 1565
+          sd-user: 'webmestre'
+          sd-password: 'secret'
+          sd-method: '/VirtualHostBase/http/{domain}:80/{plonesite}/VirtualHostRoot/@@dancing.utils/tick_and_dispatch'
+        autostart:
+          client1: true
+        haproxy:
+          cpu: adm64
+          target: generic
+    started_supervisor_programs: [zeoserver, haproxy, varnish]
+    supervisor_programs: [client1]
+  env_defaults:
+    dev: {}
+    prod:
+      settings: {}
+# vim:set ft=yaml ts=2 sts=2:
