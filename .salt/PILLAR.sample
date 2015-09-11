@@ -50,6 +50,7 @@ makina-projects.projectname:
           effective-user: "{user}"
           haproxy-user: "{user}"
           varnish-user: "{user}"
+          #"eggs+": Products.PloneHotfix20150910
           newest: "false"
           unzip: "true"
           cache-directory: '{cache-directory}'
