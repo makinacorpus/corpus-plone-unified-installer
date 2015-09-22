@@ -13,6 +13,7 @@ echo reboot:
 {{nginx.virtualhost(data.domain,
                     data.www_dir,
                     server_aliases=data.server_aliases,
+                    vhost_basename="corpus-"+.cfg.name,
                     vh_top_source=data.nginx_top,
                     vh_content_source=data.nginx_vhost,
                     cfg=cfg)}}

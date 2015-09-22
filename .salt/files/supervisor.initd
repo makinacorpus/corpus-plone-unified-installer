@@ -30,6 +30,17 @@ export TMPDIR
 [ -f $supervisorctl ] || exit 1
 
 RETVAL=0
+status() {
+    set -x
+    if [[ `whoami` == root ]];then
+        su $EFFECTIVE_USER -c "bash -c \"$supervisorctl status all\""
+        ret=$?
+    else
+      "$supervisorctl" status all
+      ret=$?
+    fi
+    return ${ret}
+}
 start() {
     echo -n "Starting $name: "
     if [[ `whoami` == root ]];then
@@ -56,6 +67,10 @@ stop() {
     return $RETVAL
 }
 case "$1" in
+         status)
+             status
+             exit $?
+             ;;
          start)
              start
              ;;
@@ -71,4 +86,4 @@ case "$1" in
              ;;
 esac
 exit $REVAL
-# vim:set ft=sh: 
+# vim:set ft=sh:
