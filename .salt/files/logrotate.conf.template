@@ -16,6 +16,7 @@ delaycompress
     notifempty
     size 10M
     sharedscripts
+    missingok
     postrotate
         /bin/kill -USR2 $(cat {{data.zroot}}/var/{{client}}/{{client}}.pid)
     endscript
@@ -29,6 +30,7 @@ delaycompress
     daily
     notifempty
     size 10M
+    missingok
     postrotate
         /bin/kill -USR2 $(cat {{data.zroot}}/var/zeoserver/zeoserver.pid)
     endscript
